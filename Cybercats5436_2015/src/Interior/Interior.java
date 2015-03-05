@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Interior {
-	private static double INTERIOR_ENCODER_MAX = 1000; // needs to be tested
+	private static double INTERIOR_ENCODER_MAX = 1500; // needs to be tested
 	private static double INTERIOR_ENCODER_MIN = 0;
 	private static double TOTE_ENCODER_HEIGHT = 100;
 	private static double MAX_AMPS = 2;
@@ -64,10 +64,11 @@ public class Interior {
 			}
 		} else {
 			if ((getCurrentEncoder() >= 0
-					&& !SensorsAndActuators.interiorBottomLimit.get())||overide) {
+					&& !SensorsAndActuators.interiorBottomLimit.get())||overide
+					||!SensorsAndActuators.interiorBottomLimit.get()) {
 				SensorsAndActuators.interiorLiftMotor.set(speed);
 				SmartDashboard.putString("STUFF IS OK!", "SUPPOSE TO MOVE DOWN");
-			} else {
+			}else{
 				SensorsAndActuators.interiorLiftMotor.set(0);
 				SmartDashboard.putString("STUFF IS OK!", "SUPPOSE TO STOP");
 			}

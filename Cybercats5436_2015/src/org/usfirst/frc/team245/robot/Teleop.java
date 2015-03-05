@@ -29,13 +29,8 @@ public class Teleop {
 
 		// interior
 		interior();
-		if(Gamepad.secondary.getTriggers()>.3){
-			Cameras.setSession(Cameras.session0);
-		}
-		else{
-			Cameras.setSession(Cameras.session1);
-		}
-		Cameras.updateCamera();
+		
+		
 	}
 
 	public static void drive() {

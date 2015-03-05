@@ -1,5 +1,6 @@
 package org.usfirst.frc.team245.robot;
 
+import Auton.Test;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Victor;
@@ -32,19 +33,18 @@ public class Robot extends IterativeRobot {
 		// SensorsAndActuators.initialize();
 		SensorsAndActuators.initialize();
 		//SensorsAndActuators.compressor.start();
-		
+		//Cameras.camInit();
 		 Drive.Drive.init();
 		// Drive.Drive.roiInit();
 		 ControlsTest.timer.start();
 		//PneumaticsTest.init();
-		 Cameras.camInit();
 	}
 
 	@Override
 	public void autonomousInit() {
 		// TODO Auto-generated method stub
 		super.autonomousInit();
-
+		Auton.DriveForward.iterator=0;
 	}
 
 	@Override
@@ -55,7 +55,10 @@ public class Robot extends IterativeRobot {
 		// Only one of the two is called, eventually smartdash will decide
 		// LandmarkPlacement.update();
 
-		 Auton.Test.update();
+		// Auton.Test.update();
+		 SmartDashboard.putNumber("auton iterator", Auton.DriveForward.iterator);
+		// Cameras.updateCamera();
+		 Auton.DriveForward.update();
 	}
 
 	/**
@@ -67,7 +70,7 @@ public class Robot extends IterativeRobot {
 		 try{
 		Teleop.doWerk();
 		// Auton.Test.update();
-		//ControlsTest.update();
+		// ControlsTest.update();
 		// SmartDashboard.putNumber("Halleffect encoder",
 		// SensorsAndActuators.exteriorRotationEncoder.get());
 		SmartDashboard.putNumber("exterior motor value", SensorsAndActuators.exteriorLiftMotor.get());
@@ -80,6 +83,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("the line number exception was", e.getStackTrace()[0].getLineNumber());
 		// e.printStackTrace();
 		}
+		 //Cameras.updateCamera();
 		//PneumaticsTest.update();
 		//ControlsTest.update();
 	}
@@ -111,6 +115,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Writing rotation",
 				Drive.Drive.rotationAxis.toString());
 		Drive.Drive.MAX_ACCEL=SmartDashboard.getNumber("Max acceleration input", .05);
+		//Cameras.updateCamera();
 	}
 
 }
