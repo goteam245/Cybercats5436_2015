@@ -14,7 +14,7 @@ public class Teleop {
 	public static boolean interiorLift = false;
 	public static boolean placeTotes = false;
 	public static boolean oldMode = true;
-
+	private static boolean camerasEnabled = false;
 	/*
 	 * public static File file = new File("GhostMode.txt"); public static
 	 * FileWriter f;
@@ -29,9 +29,15 @@ public class Teleop {
 
 		// interior
 		interior();
-		
-		
-	}
+		/*if(camerasEnabled){
+		if(Gamepad.secondary.getTriggers()>.3){
+			Cameras.setSession(Cameras.session0);
+		}
+		else{
+			Cameras.setSession(Cameras.session0);
+		}
+		Cameras.updateCamera();*/
+	}		
 
 	public static void drive() {
 		Drive.Drive.senseMode = oldMode;
@@ -47,7 +53,7 @@ public class Teleop {
 	public static void exterior() {
 		
 		
-		Exterior.Exterior.moveArm(-.5 * Gamepad.secondary.getRightY());
+		Exterior.Exterior.moveArm(Gamepad.secondary.getRightY());
 		if (Gamepad.secondary.getTriggers()<-.3) {
 			Exterior.Exterior.setClamps(false);
 			SmartDashboard.putBoolean("external clamp", false);
@@ -60,14 +66,14 @@ public class Teleop {
 		else{
 			Exterior.Exterior.overide=false;
 		}
-		if (Gamepad.secondary.getY()) {
-			exteriorLockAndLift = true;
-			Exterior.Exterior.clampAndRiseInit();
-		}
-		if (exteriorLockAndLift) {
-			SmartDashboard.putBoolean("exterior lock and lift", exteriorLockAndLift);
-			exteriorLockAndLift = !Exterior.Exterior.clampAndRise();
-		}
+		//if (Gamepad.secondary.getY()) {
+			//exteriorLockAndLift = true;
+			//Exterior.Exterior.clampAndRiseInit();
+		//}
+		//if (exteriorLockAndLift) {
+			//SmartDashboard.putBoolean("exterior lock and lift", exteriorLockAndLift);
+			//exteriorLockAndLift = !Exterior.Exterior.clampAndRise();
+		//}
 	}
 
 	public static void interior() {
@@ -83,7 +89,7 @@ public class Teleop {
 		if (interiorLift) {
 			placeTotes = !Interior.Interior.placeTotes();
 		}*/
-		Interior.Interior.moveArm(-.5 * Gamepad.secondary.getLeftY());
+		Interior.Interior.moveArm(-.75 * Gamepad.secondary.getLeftY());
 		if(Gamepad.secondary.getA()){
 			Interior.Interior.toggleClamps(true);
 		}
@@ -96,8 +102,11 @@ public class Teleop {
 		else{
 			Interior.Interior.overide=false;
 		}
-		if (Gamepad.primary.getA()||Gamepad.primary.getRB()) {
-			Interior.Interior.toggleRollers(-.5, .5);
+		if (Gamepad.primary.getA()) {
+			Interior.Interior.toggleRollers(-.25, .25);
+		}
+		else if(Gamepad.primary.getRB()){
+			Interior.Interior.toggleRollers(-1, 1);
 		}
 		else if (Gamepad.primary.getX()) {
 			Interior.Interior.toggleRollers(-.5, 0);
@@ -117,12 +126,12 @@ public class Teleop {
 		else{
 			Interior.Interior.toggleRollers(false);
 		}
-		if(Gamepad.secondary.getX()){
+		/*if(Gamepad.secondary.getX()){
 			Interior.Interior.toggleRatchet(true);
 		}
 		else{
 			Interior.Interior.toggleRatchet(false);
-		}
+		}*/
 		
 	}
 

@@ -15,7 +15,7 @@ public class Drive {
 	private static double oldinputy = 0;
 	private static Boolean Yaxis = false;
 	public static Boolean senseMode = true;
-	public static double MAX_ACCEL = .02;
+	public static double MAX_ACCEL = .07;
 	private static Boolean pressed = false;
 	public static ArrayList<Double> yAxis = new ArrayList();
 	public static ArrayList<Double> xAxis = new ArrayList();
@@ -80,24 +80,16 @@ public class Drive {
 				
 				oldinputy = output;
 				}
-			if (output > .8)
-				output = .8;
-			if (output < -.8)
-				output = -.8;
-			if (!senseMode) {
-				// output = input;
-				MAX_ACCEL=.1;
-	 		}
-			else if (senseMode) {
-				 MAX_ACCEL=.02;
-			}
+			if (!senseMode)
+				 output = input;
+			
 			if (!pressed)
 				if (Gamepad.primary.getLeftStick()){
 					pressed = true;
 					if(!senseMode){
 						senseMode = true;
 					Teleop.oldMode = true;
-					} 
+					}
 					else{
 						senseMode = false;
 						Teleop.oldMode = false;

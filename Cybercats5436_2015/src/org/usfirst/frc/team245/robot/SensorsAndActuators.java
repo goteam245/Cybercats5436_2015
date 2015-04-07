@@ -33,13 +33,14 @@ public final class SensorsAndActuators {
 	public static Victor interiorLiftMotor;
 	public static Victor exteriorLiftMotor;
 	public static Victor exteriorRotationMotor;
-	public static DoubleSolenoid internalToteClamp;
+	//public static DoubleSolenoid internalToteClamp;
 	public static DoubleSolenoid exteriorArmPiston;
-	public static Solenoid rollerPiston;
+	public static DoubleSolenoid rollerPiston;
 	public static Solenoid ratchetPiston;
 	public static Solenoid liftBrake;
 	public static Solenoid angleBrake;
-
+	public static Solenoid lights1;
+	public static Solenoid lights2;
 	// OTHER
 	public static PowerDistributionPanel currentPDP;
 
@@ -60,7 +61,7 @@ public final class SensorsAndActuators {
 		exteriorBottomLimit = new DigitalInput(5); // confirmed
 		interiorTopLimit = new DigitalInput(6); //confirmed
 		interiorBottomLimit = new DigitalInput(7); //confirmed
-		// photoEyeInternal = new DigitalInput(8);
+		 photoEyeInternal = new DigitalInput(8);
 		 photoEyeExternal = new DigitalInput(9);
 		// Actuators
 		 leftFrontDrive = new Talon(0);
@@ -75,13 +76,14 @@ public final class SensorsAndActuators {
 		exteriorLiftMotor = new Victor(7);
 
 		// Solenoids
-		 internalToteClamp = new DoubleSolenoid(0,1);//internal tote
+		 //internalToteClamp = new DoubleSolenoid(0,1);//internal tote
 		exteriorArmPiston = new DoubleSolenoid(4, 5);// untested
 		//liftBrake = new Solenoid(6);
 		//angleBrake = new Solenoid(7);
-		 rollerPiston = new Solenoid(3);
+		 rollerPiston = new DoubleSolenoid(0,1);
 		 ratchetPiston = new Solenoid(2);
-
+		 lights1 = new Solenoid(6);
+		 lights2 = new Solenoid(7);
 		compressor = new Compressor();
 		currentPDP = new PowerDistributionPanel();
 	}

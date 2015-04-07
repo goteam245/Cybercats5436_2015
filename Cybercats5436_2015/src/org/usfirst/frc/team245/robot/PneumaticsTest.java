@@ -14,11 +14,11 @@ public class PneumaticsTest {
 	public static void update(){
 		if(timer.get()>120){
 			if(timer.get()>(lastState+5)&&on){
-				SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kReverse);
+			//	SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kReverse);
 				lastState = timer.get();
 			}
 			else if(timer.get()>(lastState+5)&&!on){
-				SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kForward);
+		//		SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kForward);
 				lastState = timer.get();
 			}
 			else{

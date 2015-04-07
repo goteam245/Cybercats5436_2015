@@ -1,5 +1,7 @@
 package Interior;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team245.robot.SensorsAndActuators;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -9,7 +11,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Interior {
-	private static double INTERIOR_ENCODER_MAX = 1500; // needs to be tested
+	private static double INTERIOR_ENCODER_MAX = 1650; // needs to be tested
 	private static double INTERIOR_ENCODER_MIN = 0;
 	private static double TOTE_ENCODER_HEIGHT = 100;
 	private static double MAX_AMPS = 2;
@@ -29,6 +31,10 @@ public class Interior {
 	private static int intakeStage = 0;
 	private static int outputStage = 0;
 	public static boolean overide = false;
+	public static ArrayList<Double> interiorSpeed = new ArrayList();
+	public static ArrayList<Boolean> interiorClamp = new ArrayList();
+	public static ArrayList<Boolean> interiorRatchet = new ArrayList();
+
 	public static void toggleRollers(double leftSpeed, double rightSpeed) { // 1
 																			// =
 																			// in,
@@ -52,8 +58,10 @@ public class Interior {
 		// issues with encoder skipping, unsure for max and min values
 		// SensorsAndActuators.interiorLiftMotor.set(speed);
 		if (speed > 0) {
-			if ((getCurrentEncoder() <= INTERIOR_ENCODER_MAX
-					&& !SensorsAndActuators.interiorTopLimit.get())||overide) {// &&not
+			if ((getCurrentEncoder() <= INTERIOR_ENCODER_MAX && !SensorsAndActuators.interiorTopLimit
+					.get())
+					|| overide
+					|| !SensorsAndActuators.interiorTopLimit.get()) {// &&not
 																		// the
 																		// top
 																		// limit
@@ -63,20 +71,27 @@ public class Interior {
 				SensorsAndActuators.interiorLiftMotor.set(0);
 			}
 		} else {
-			if ((getCurrentEncoder() >= 0
-					&& !SensorsAndActuators.interiorBottomLimit.get())||overide
-					||!SensorsAndActuators.interiorBottomLimit.get()) {
+			if ((getCurrentEncoder() >= 0 && !SensorsAndActuators.interiorBottomLimit
+					.get())
+					|| overide
+					|| !SensorsAndActuators.interiorBottomLimit.get()) {
 				SensorsAndActuators.interiorLiftMotor.set(speed);
-				SmartDashboard.putString("STUFF IS OK!", "SUPPOSE TO MOVE DOWN");
-			}else{
+				SmartDashboard
+						.putString("STUFF IS OK!", "SUPPOSE TO MOVE DOWN");
+			} else {
 				SensorsAndActuators.interiorLiftMotor.set(0);
 				SmartDashboard.putString("STUFF IS OK!", "SUPPOSE TO STOP");
 			}
 		}
-		SmartDashboard.putBoolean("top limit", SensorsAndActuators.interiorTopLimit.get());
-		SmartDashboard.putBoolean("bottom limit", SensorsAndActuators.interiorBottomLimit.get());
-		SmartDashboard.putNumber("encoder value", SensorsAndActuators.interiorManipulator.get());
-		SmartDashboard.putNumber("encoder distnce value", SensorsAndActuators.interiorManipulator.getDistance());
+		interiorSpeed.add(speed);
+		SmartDashboard.putBoolean("top limit",
+				SensorsAndActuators.interiorTopLimit.get());
+		SmartDashboard.putBoolean("bottom limit",
+				SensorsAndActuators.interiorBottomLimit.get());
+		SmartDashboard.putNumber("encoder value",
+				SensorsAndActuators.interiorManipulator.get());
+		SmartDashboard.putNumber("encoder distnce value",
+				SensorsAndActuators.interiorManipulator.getDistance());
 		SmartDashboard.putNumber("speed", speed);
 	}
 
@@ -89,27 +104,29 @@ public class Interior {
 			// close Arms
 			SensorsAndActuators.ratchetPiston.set(false);
 		}
+		interiorRatchet.add(isCompressed);
 	}
 
 	// clamps using the piston
 	public static void toggleRollers(boolean isCompressed) {
 		if (isCompressed) { // currently closed
 			// open Arms
-			SensorsAndActuators.rollerPiston.set(false);
+			SensorsAndActuators.rollerPiston.set(DoubleSolenoid.Value.kForward);
+			;
 		} else { // currently open
 			// close Arms
-			SensorsAndActuators.rollerPiston.set(true);
+			SensorsAndActuators.rollerPiston.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
 
 	public static void toggleClamps(boolean isCompressed) {
-		if (isCompressed) {
-			SensorsAndActuators.internalToteClamp
-					.set(DoubleSolenoid.Value.kForward);
-		} else {
-			SensorsAndActuators.internalToteClamp
-					.set(DoubleSolenoid.Value.kReverse);
-		}
+		/*
+		 * if (isCompressed) { SensorsAndActuators.internalToteClamp
+		 * .set(DoubleSolenoid.Value.kForward); } else {
+		 * SensorsAndActuators.internalToteClamp
+		 * .set(DoubleSolenoid.Value.kReverse);
+		 */
+		interiorClamp.add(isCompressed);
 	}
 
 	public static void currentCheck() { // each iteration = 20 milliseconds
@@ -239,6 +256,28 @@ public class Interior {
 			return true;
 		}
 		return false;
+	}
+
+	private static int i = 0;
+
+	public static boolean isToteIn() {
+		boolean isToteIn = !SensorsAndActuators.photoEyeInternal.get();
+		SmartDashboard.putBoolean("IS TOTE IN INTERNAL?", isToteIn);
+		if (isToteIn) {
+			i=0;
+			SensorsAndActuators.lights1.set(true);
+			SensorsAndActuators.lights2.set(true);
+		}else{
+			if(i%50<=25){
+				SensorsAndActuators.lights1.set(false);
+				SensorsAndActuators.lights2.set(false);
+			}else{
+				SensorsAndActuators.lights1.set(true);
+				SensorsAndActuators.lights2.set(true);
+			}
+			i++;
+		}
+		return isToteIn;
 	}
 
 }

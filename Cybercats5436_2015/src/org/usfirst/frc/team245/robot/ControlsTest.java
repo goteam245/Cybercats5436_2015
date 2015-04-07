@@ -37,41 +37,44 @@ public class ControlsTest {
 		}
 		
 		if (testNum == 7) {
-			SensorsAndActuators.rollerPiston.set(true);
+			SensorsAndActuators.rollerPiston.set(DoubleSolenoid.Value.kForward);
 		}
 		if (testNum == 8) {
-			SensorsAndActuators.liftBrake.set(true);
+			SensorsAndActuators.rollerPiston.set(DoubleSolenoid.Value.kForward);
 		}
 		if (testNum == 9) {
-			 SensorsAndActuators.interiorLiftMotor.set(.5);
+			SensorsAndActuators.liftBrake.set(true);
 		}
 		if (testNum == 10) {
-			 SensorsAndActuators.exteriorLiftMotor.set(.5);
+			 SensorsAndActuators.interiorLiftMotor.set(.5);
 		}
 		if (testNum == 11) {
-			 SensorsAndActuators.exteriorRotationMotor.set(.5);
+			 SensorsAndActuators.exteriorLiftMotor.set(.5);
 		}
 		if (testNum == 12) {
+			 SensorsAndActuators.exteriorRotationMotor.set(.5);
+		}
+		/*if (testNum == 13) {
 			SensorsAndActuators.internalToteClamp
 					.set(DoubleSolenoid.Value.kForward);
-		}
-		if (testNum == 13) {
-			SensorsAndActuators.internalToteClamp
-					.set(DoubleSolenoid.Value.kReverse);
 		}
 		if (testNum == 14) {
+			SensorsAndActuators.internalToteClamp
+					.set(DoubleSolenoid.Value.kReverse);
+		}
+		*/if (testNum == 15) {
 			SensorsAndActuators.exteriorArmPiston
 					.set(DoubleSolenoid.Value.kForward);
 		}
-		if (testNum == 15) {
+		if (testNum == 16) {
 			SensorsAndActuators.exteriorArmPiston
 					.set(DoubleSolenoid.Value.kReverse);
 		}
-		if (testNum == 16) {
+		if (testNum == 17) {
 			SensorsAndActuators.ratchetPiston.set(true);
 		}
 		
-		if (testNum == 17) {
+		if (testNum == 18) {
 			SensorsAndActuators.angleBrake.set(true);
 		}// inputPrint();
 		SmartDashboard.putNumber("testnum", testNum);
@@ -81,12 +84,12 @@ public class ControlsTest {
 		SensorsAndActuators.angleBrake.set(false);
 		SensorsAndActuators.ratchetPiston.set(false);
 		SensorsAndActuators.exteriorArmPiston.set(DoubleSolenoid.Value.kOff);
-		SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kOff);
+		//SensorsAndActuators.internalToteClamp.set(DoubleSolenoid.Value.kOff);
 		SensorsAndActuators.exteriorRotationMotor.set(0);
 		SensorsAndActuators.exteriorLiftMotor.set(0);
 		SensorsAndActuators.interiorLiftMotor.set(0);
 		SensorsAndActuators.liftBrake.set(false);
-		SensorsAndActuators.rollerPiston.set(false);
+		SensorsAndActuators.rollerPiston.set(DoubleSolenoid.Value.kOff);
 		SensorsAndActuators.rightToteFeederMotor.set(0);
 		SensorsAndActuators.leftToteFeederMotor.set(0);
 		SensorsAndActuators.leftFrontDrive.set(0);
@@ -116,16 +119,16 @@ public class ControlsTest {
 			//	SensorsAndActuators.exteriorRotationMotor.get());
 		SmartDashboard.putBoolean("Lift brake value",
 				SensorsAndActuators.liftBrake.get());
-		SmartDashboard.putBoolean("Clamp piston value",
-				SensorsAndActuators.rollerPiston.get());
+		SmartDashboard.putString("Clamp piston value",
+				SensorsAndActuators.rollerPiston.getSmartDashboardType());
 		SmartDashboard.putBoolean("Angle brake value",
 				SensorsAndActuators.angleBrake.get());
-		SmartDashboard.putBoolean("Ratchet piston value",
-				SensorsAndActuators.ratchetPiston.get());
+		SmartDashboard.putString("Ratchet piston value",
+				SensorsAndActuators.ratchetPiston.getSmartDashboardType());
 		SmartDashboard.putString("Exterior arm piston",
 				SensorsAndActuators.exteriorArmPiston.getSmartDashboardType());
-		SmartDashboard.putString("Tote piston",
-				SensorsAndActuators.internalToteClamp.getSmartDashboardType());
+		//SmartDashboard.putString("Tote piston",
+		//		SensorsAndActuators.internalToteClamp.getSmartDashboardType());
 
 		SmartDashboard.putBoolean("Exterior bottom limit",
 				SensorsAndActuators.exteriorBottomLimit.get());
